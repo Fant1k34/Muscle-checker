@@ -6,7 +6,8 @@ export const TextWithButton = () => {
         <div className={styles.mainStyle}>
             <div>Тут текст</div>
             <button
-                onClick={() => console.log('Пример реакт приложения с нодой')}>
+                onClick={() => console.log('Пример реакт приложения с нодой')}
+            >
                 А вот тут кнопка
             </button>
         </div>
