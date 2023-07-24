@@ -1,24 +1,31 @@
-import * as React from 'react'
+import * as React from 'react';
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { MainPage } from './pages/main-page/main-page';
+import { HostPage } from './pages/host-page/host-page';
+
+import { AppTabs } from './types/app-tabs';
+import { getLinkToMenuItem } from './utils';
+
+const PageProvider = (children) => <HostPage> {children} </HostPage>;
 
 const router = createBrowserRouter([
     {
-        path: '/',
-        element: <div>Main page</div>,
+        path: getLinkToMenuItem(AppTabs.MAIN),
+        element: PageProvider(<MainPage />),
     },
     {
-        path: '/add-measure',
-        element: <div>Добавить измерение</div>,
+        path: getLinkToMenuItem(AppTabs.MEASURE),
+        element: PageProvider(<div>Добавить измерение</div>),
     },
     {
-        path: '/statistics',
-        element: <div>Просмотреть статистику</div>,
+        path: getLinkToMenuItem(AppTabs.STATISTICS),
+        element: PageProvider(<div>Просмотреть статистику</div>),
     },
     {
-        path: '/settings',
-        element: <div>Настройки</div>,
+        path: getLinkToMenuItem(AppTabs.SETTINGS),
+        element: PageProvider(<div>Настройки</div>),
     },
-])
+]);
 
 export const Router = () => <RouterProvider router={router} />;
