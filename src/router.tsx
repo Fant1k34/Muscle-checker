@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './index.css'
 
 const router = createBrowserRouter([
     {
@@ -22,4 +21,4 @@ const router = createBrowserRouter([
     },
 ])
 
-export const Router = () => <RouterProvider router={router} />
+export const Router = () => <RouterProvider router={router} />;
