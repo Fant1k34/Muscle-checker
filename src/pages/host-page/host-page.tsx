@@ -4,7 +4,7 @@ import { Avatar } from 'antd';
 
 import { UserOutlined } from '@ant-design/icons';
 
-import { hostStyle, headerStyle, footerStyle, contentStyle } from './styles';
+import { hostStyle, headerStyle, footerStyle } from './styles';
 import { menuItems } from '../../constant/menu-items';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getLinkToMenuItem, getMenuIdByLink } from '../../utils';
@@ -51,7 +51,7 @@ export const HostPage = ({ children }: HostPageProps) => {
                 <Header style={headerStyle}>
                     <Avatar size="large" icon={<UserOutlined />} />
                 </Header>
-                <Content style={contentStyle}> {children} </Content>
+                <Content> {children} </Content>
                 <Footer style={footerStyle}>Footer</Footer>
             </Layout>
         </Layout>
