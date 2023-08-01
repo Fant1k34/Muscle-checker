@@ -1,6 +1,7 @@
 import { COLORS } from '../../constant/colors';
+import { CSSProperties } from 'react';
 
-export const inputContainerStyle = {
+export const inputContainerStyle: CSSProperties = {
     display: 'inline-flex',
     justifyContent: 'left',
     alignItems: 'end',
@@ -8,7 +9,7 @@ export const inputContainerStyle = {
     backgroundColor: COLORS.blue,
 };
 
-export const inputStyle = {
+export const inputStyle: CSSProperties = {
     width: '64px',
     height: '40px',
     display: 'block',
@@ -18,7 +19,7 @@ export const inputStyle = {
     fontSize: '20px',
 };
 
-export const inputLabelStyle = {
+export const inputLabelStyle: CSSProperties = {
     margin: '0px 12px 6px 8px',
     color: COLORS.white,
     fontSize: '20px',

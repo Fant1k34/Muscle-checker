@@ -7,4 +7,5 @@ export enum MuscleMeasure {
     CHEEKS,
     HIP,
     IKRA,
+    NECK,
 }

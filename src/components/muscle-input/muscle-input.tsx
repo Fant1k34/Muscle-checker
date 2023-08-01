@@ -30,7 +30,7 @@ export const MuscleInput = ({
             // Если пусто - сбрасываем, а если ошибка - просим заново
             if (value === '') {
                 onSubmitCancel();
-            } else wrapperRef.current.focus();
+            }
         }
     };
 

@@ -6,6 +6,7 @@ import {
     componentContainerStyle,
     innerPointerCircleStyle,
     outerPointerCircleStyle,
+    pointerTextContainerStyle,
     pointerTextStyle,
 } from './muscle-pointer.styles';
 
@@ -77,15 +78,21 @@ export const MusclePointer = ({
     return (
         <Tooltip title={muscleHint}>
             <div style={{ ...componentContainerStyle, ...otherStyle }}>
-                <button
-                    onClick={handleCircleClick}
-                    style={outerPointerCircleStyle}>
-                    {value.length ? (
+                {value.length ? (
+                    <button
+                        onClick={handleCircleClick}
+                        style={pointerTextContainerStyle}
+                    >
                         <Paragraph style={pointerTextStyle}>{value}</Paragraph>
-                    ) : (
+                    </button>
+                ) : (
+                    <button
+                        onClick={handleCircleClick}
+                        style={outerPointerCircleStyle}
+                    >
                         <div style={innerPointerCircleStyle} />
-                    )}
-                </button>
+                    </button>
+                )}
             </div>
         </Tooltip>
     );

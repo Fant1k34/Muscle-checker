@@ -1,6 +1,6 @@
-import React from 'react';
+import { CSSProperties } from 'react';
 
-export const headerStyle: React.CSSProperties = {
+export const headerStyle: CSSProperties = {
     display: 'flex',
     justifyContent: 'end',
     alignItems: 'center',
@@ -8,12 +8,12 @@ export const headerStyle: React.CSSProperties = {
     backgroundColor: 'inherit',
 };
 
-export const footerStyle: React.CSSProperties = {
+export const footerStyle: CSSProperties = {
     textAlign: 'center',
 };
 
-export const hostStyle: React.CSSProperties = {
-    width: '100%',
-    height: '100%',
+export const hostStyle: CSSProperties = {
+    minWidth: '100%',
+    minHeight: '100%',
     backgroundColor: '#f3f4f5',
 };

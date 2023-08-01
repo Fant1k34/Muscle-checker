@@ -6,8 +6,7 @@ import { HostPage } from './pages/host-page/host-page';
 
 import { AppTabs } from './types/app-tabs';
 import { getLinkToMenuItem } from './utils';
-import { MusclePointer } from './components/muscle-input/muscle-pointer';
-import { MuscleMeasure } from './types';
+import { AddMeasure } from './pages/add-measure/add-measure';
 
 const PageProvider = (children) => <HostPage> {children} </HostPage>;
 
@@ -18,17 +17,7 @@ const router = createBrowserRouter([
     },
     {
         path: getLinkToMenuItem(AppTabs.MEASURE),
-        element: PageProvider(
-            <MusclePointer
-                muscle={MuscleMeasure.BICEPS}
-                muscleHint={'Тут подсказка'}
-                position="R"
-                onSet={(value) => {
-                    alert(value);
-                }}
-                otherStyle={{ opacity: '0.3' }}
-            />
-        ),
+        element: PageProvider(<AddMeasure />),
     },
     {
         path: getLinkToMenuItem(AppTabs.STATISTICS),
