@@ -1,21 +1,32 @@
-startServer = (port, pagesUrl, bundleUrl) => {
+startServer = (port, { bundleUrl, bundlePath }, { pagesUrl, pagesPath }, { imageUrl, imagePath } ) => {
     const app = require('express')();
-    const path = require('path');
 
+    // bundle.js
     app.get(bundleUrl, (req, res) => {
-        res.sendFile(path.join(__dirname, '../../dist/bundle.js'));
+        console.log(req.originalUrl)
+
+        res.sendFile(bundlePath, { root: "." });
     });
 
-    app.get(`${pagesUrl}static/images/*`, (req, res) => {
+    // static (images)
+    app.get(`${pagesUrl}${imageUrl}*`, (req, res) => {
+        console.log(req.originalUrl)
         const imageId = req.originalUrl.split('/').slice(-1);
 
-        res.sendFile(
-            path.join(__dirname, `../../dist/static/images/${imageId}`)
-        );
+        res.sendFile(`${imagePath}${imageId}`, { root: "." });
     });
 
+    // html-pages
     app.get(`${pagesUrl}*`, (req, res) => {
-        res.sendFile(path.join(__dirname, '../../dist/index.html'));
+        console.log(req.originalUrl)
+
+        res.sendFile(pagesPath, { root: "." });
+    });
+
+    app.get(`*`, (req, res) => {
+        console.log(req.originalUrl)
+
+        res.send("Ой, ничего не найдено");
     });
 
     app.listen(port);
