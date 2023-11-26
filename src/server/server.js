@@ -6,12 +6,10 @@ const {
     protocol,
     serverName,
     port,
-    bundle: { bundleUrl, bundlePath },
-    pages: { pagesUrl, pagesPath },
-    static: {
-        images: { imageUrl, imagePath }
-    }
+    bundle: { bundleUrl },
+    pages: { pagesPath },
 } = config.server
+
 const link = `${protocol}://${serverName}:${port}${bundleUrl}`;
 
 const writeContentToFile = (file, content) => {
@@ -27,7 +25,5 @@ fs.readFile(pagesPath, 'utf8', (err, data) => {
     htmlContentWithCorrectedScriptLink = data.replace(/{TO_REPLACE_WITH_LINK}/g, link);
     writeContentToFile(pagesPath, htmlContentWithCorrectedScriptLink);
 
-    startServer(port, { bundleUrl, bundlePath },
-        { pagesUrl, pagesPath },
-        { imageUrl, imagePath });
+    startServer(config);
 });

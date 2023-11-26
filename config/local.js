@@ -17,13 +17,18 @@ const config = {
                 imageUrl: "static/images/*",
                 imagePath: "./dist/static/images/",
             },
-        }
+        },
     },
     api: {
-        login: {
-            name: "login",
-            frontUrl: "",
-            redirectUrl: null,
+        apiUrl: "/api",
+        services: {
+            login: {
+                name: "login",
+                frontUrl: "/login",
+            },
+            doesNotExist: {
+                name: "doesNotExist",
+            }
         }
     }
 }
