@@ -1,1 +1,6 @@
-// TODO: Methods: { post: "POST", get: "GET" }... for api
+const HTTPMethods = {
+    GET: "GET",
+    POST: "POST",
+}
+
+module.exports = { HTTPMethods }

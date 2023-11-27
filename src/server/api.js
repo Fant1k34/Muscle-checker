@@ -1,5 +1,6 @@
 const { loginApi } = require("./api/loginApi");
 const { doesNotExistApi } = require("./api/doesNotExistApi");
+const { HTTPMethods } = require("./constants");
 
 /**
  * getApiListByConfig returns list of API
@@ -8,7 +9,7 @@ const getApiListByConfig = (config) => [
     {
         name: config.api.services.login.name,
         url: config.api.services.login.frontUrl,
-        method: "POST", // TODO: заменить из файла constants.js
+        method: HTTPMethods.POST,
         service: loginApi(config.api.services.login)
     },
     {
@@ -21,6 +22,7 @@ const getApiListByConfig = (config) => [
  * getApiByUrl returns necessary API by url and method or doesNotExistApi
  * @param config config object from ./config/local.js as param
  * @param apiUrl string url
+ * @param urlMethod httpMethod for this url (get, post ...)
  */
 const getApiByUrl = (config, apiUrl, urlMethod) => {
     const apiList = getApiListByConfig(config)

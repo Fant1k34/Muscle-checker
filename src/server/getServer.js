@@ -1,5 +1,6 @@
 startServer = (config, serverLogger) => {
-    const app = require('express')();
+    const express = require('express');
+    const app = express();
     const { getApiByUrl } = require("./api");
 
     const {
@@ -13,6 +14,8 @@ startServer = (config, serverLogger) => {
         },
         api: { apiUrl }
     } = config
+
+    app.use(express.json())
 
     // bundle.js
     app.get(bundleUrl, (req, res) => {

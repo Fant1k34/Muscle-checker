@@ -1,8 +1,8 @@
 const loginApi = (loginConfig) =>
     (req, res) => {
+        console.log(req.body)
         const { login, password } = req.body
-        res.send("bla bla bla")
+        res.send(`${login}, ${password}`)
     }
-
 
 module.exports = { loginApi }
