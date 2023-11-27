@@ -12,18 +12,25 @@ const {
 
 const link = `${protocol}://${serverName}:${port}${bundleUrl}`;
 
+const onError = (error) => {
+    console.error(error)
+}
+
+const serverLogger = (...messages) => {
+    console.log(messages.join("\t"))
+}
+
 const writeContentToFile = (file, content) => {
     fs.writeFile(file, content, 'utf8', (err) => {
-        if (err) return console.log(err);
+        if (err) return onError(err);
     })
 }
 
-let htmlContentWithCorrectedScriptLink;
 fs.readFile(pagesPath, 'utf8', (err, data) => {
-    if (err) return console.log(err);
+    if (err) return onError(err);
 
-    htmlContentWithCorrectedScriptLink = data.replace(/{TO_REPLACE_WITH_LINK}/g, link);
-    writeContentToFile(pagesPath, htmlContentWithCorrectedScriptLink);
+    const htmlWithCorrectedScriptLink = data.replace(/{TO_REPLACE_WITH_LINK}/g, link);
+    writeContentToFile(pagesPath, htmlWithCorrectedScriptLink);
 
-    startServer(config);
+    startServer(config, serverLogger);
 });
