@@ -1,6 +1,6 @@
 const HTTPMethods = {
-    GET: "GET",
-    POST: "POST",
-}
+    GET: 'GET',
+    POST: 'POST',
+};
 
-module.exports = { HTTPMethods }
+module.exports = { HTTPMethods };

@@ -1,39 +1,40 @@
 const config = {
     server: {
-        protocol: "http",
-        serverName: "localhost",
+        protocol: 'http',
+        serverName: 'localhost',
         port: 3000,
-        pagesUrl: "/",
+        pagesUrl: '/',
         bundle: {
-            bundleUrl: "/bundle.js",
-            bundlePath: "./dist/bundle.js",
+            bundleUrl: '/bundle.js',
+            bundlePath: './dist/bundle.js',
         },
         pages: {
-            pagesUrl: "/",
-            pagesPath: "./dist/index.html",
+            pagesUrl: '/',
+            pagesPath: './dist/index.html',
         },
         static: {
             images: {
-                imageUrl: "static/images/*",
-                imagePath: "./dist/static/images/",
+                imageUrl: 'static/images/*',
+                imagePath: './dist/static/images/',
             },
         },
     },
     api: {
-        apiUrl: "/api",
+        apiUrl: '/api',
         services: {
             login: {
-                name: "login",
-                frontUrl: "/login",
-                checkCredentialsLink: "http://localhost:3000/check",
-                getTokenLink: "http://localhost:3000/token",
-                redirectAfterLogin: "/",
+                name: 'login',
+                frontUrl: '/login',
+                maxLoginTimeMillisec: 10 * 60000,
+                checkCredentialsLink: 'http://127.0.0.1:5000/checkCredentials',
+                getTokenLink: 'http://127.0.0.1:5000/getToken',
+                redirectAfterLogin: '/',
             },
             doesNotExist: {
-                name: "doesNotExist",
-            }
-        }
-    }
-}
+                name: 'doesNotExist',
+            },
+        },
+    },
+};
 
 exports.config = config;

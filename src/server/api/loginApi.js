@@ -1,35 +1,35 @@
-const loginApi = (loginConfig) =>
-    async (req, res) => {
-        console.log(req.body)
-        const {login, password} = req.body
+const loginApi = (loginConfig) => async (req, res) => {
+    const { login, password } = req.body;
+    const { fetcher } = require('../utils');
 
-        if (login && password) {
-            // TODO: Add body to the fetch, modify to POST method
-            const checkCredentialsResult = await fetch(loginConfig.checkCredentialsLink)
-                .then((response) => response.json())
-                .catch((_) => false)
+    if (login && password) {
+        const { exists: isUserExist, userId } = await fetcher(
+            loginConfig.checkCredentialsLink,
+            {
+                method: 'POST',
+                body: { login, password },
+            }
+        ).catch((_) => ({ exists: false, userId: null }));
 
-            console.log(checkCredentialsResult)
+        if (isUserExist && userId) {
+            const { success, token } = await fetcher(loginConfig.getTokenLink, {
+                method: 'POST',
+                body: JSON.stringify({ userId }),
+            }).catch((_) => ({ success: false, token: null }));
 
-            if (checkCredentialsResult) {
-                // TODO: Add body to the fetch, modify to POST method
-                const token = await fetch(loginConfig.getTokenLink)
-                    .then((response) => response.text())
-                    .catch((_) => false)
+            if (success && token) {
+                res.cookie('token', token, {
+                    maxAge: loginConfig.maxLoginTimeMillisec,
+                    httpOnly: true,
+                    secure: true,
+                });
 
-                console.log(token)
-
-                if (token) {
-                    // TODO: Modify cookies: Expires in 15 minutes, HttpsOnly, Secure...
-                    res.cookie("token", token)
-
-                    // TODO: Find out, how does redirect works (if it definetly redirect or just return another html)
-                    return res.redirect(loginConfig.redirectAfterLogin)
-                }
+                return res.redirect(loginConfig.redirectAfterLogin);
             }
         }
-
-        return res.send(false)
     }
 
-module.exports = { loginApi }
+    return res.send(false);
+};
+
+module.exports = { loginApi };
