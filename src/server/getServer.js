@@ -49,6 +49,10 @@ startServer = (config, serverLogger) => {
         return getApiByUrl(config, currentApiUrl, urlMethod)(req, res)
     })
 
+    app.all("/check", (req, res) => res.send(true))
+
+    app.all("/token", (req, res) => res.send("fefmkd5ef2"))
+
     // html-pages
     app.get(`${pagesUrl}*`, (req, res) => {
         serverLogger(req.originalUrl)

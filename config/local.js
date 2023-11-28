@@ -25,6 +25,9 @@ const config = {
             login: {
                 name: "login",
                 frontUrl: "/login",
+                checkCredentialsLink: "http://localhost:3000/check",
+                getTokenLink: "http://localhost:3000/token",
+                redirectAfterLogin: "/",
             },
             doesNotExist: {
                 name: "doesNotExist",
