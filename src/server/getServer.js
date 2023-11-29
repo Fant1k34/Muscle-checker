@@ -1,5 +1,7 @@
 startServer = (config, serverLogger) => {
     const express = require('express');
+    const cookieParser = require('cookie-parser');
+
     const app = express();
     const { getApiByUrl } = require('./api');
 
@@ -7,7 +9,7 @@ startServer = (config, serverLogger) => {
         server: {
             port,
             bundle: { bundleUrl, bundlePath },
-            pages: { pagesUrl, pagesPath },
+            pages: { pagesUrl, pagesPath, loginPageUrl },
             static: {
                 images: { imageUrl, imagePath },
             },
@@ -16,12 +18,33 @@ startServer = (config, serverLogger) => {
     } = config;
 
     app.use(express.json());
+    app.use(cookieParser());
 
     // bundle.js
     app.get(bundleUrl, (req, res) => {
         serverLogger('getBundle', req.originalUrl);
 
         res.sendFile(bundlePath, { root: '.' });
+    });
+
+    app.all('*', (req, res, next) => {
+        serverLogger('accessCheck', req.originalUrl);
+
+        const openUrls = [
+            loginPageUrl,
+            config.api.apiUrl + config.api.services.login.frontUrl,
+        ];
+
+        // Check if user goes to login URL or use loginApi or user has already cookies
+        if (
+            openUrls.includes(req.originalUrl) ||
+            (res.cookies && res.cookies['token'])
+        ) {
+            next();
+        } else {
+            // Others
+            res.redirect(loginPageUrl);
+        }
     });
 
     // static (images)

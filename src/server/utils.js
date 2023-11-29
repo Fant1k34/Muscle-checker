@@ -1,4 +1,4 @@
-const fetcher = async (url, options) => {
+const fetcher = async (url, options, onError) => {
     const httpOptions = {
         method: 'GET',
         headers: {
@@ -15,12 +15,14 @@ const fetcher = async (url, options) => {
         )}`
     );
 
-    return fetch(url, httpOptions).then(async (response) => {
-        const responseJson = await response.json();
-        serverLogger(`Response ${url}: ${JSON.stringify(responseJson)}`);
+    return fetch(url, httpOptions)
+        .then(async (response) => {
+            const responseJson = await response.json();
+            serverLogger(`Response ${url}: ${JSON.stringify(responseJson)}`);
 
-        return responseJson;
-    });
+            return responseJson;
+        })
+        .catch(onError);
 };
 
 const serverLogger = (...messages) => {

@@ -1,31 +1,37 @@
-const loginApi = (loginConfig) => async (req, res) => {
+const loginApi = (apiConfig) => async (req, res) => {
     const { login, password } = req.body;
     const { fetcher } = require('../utils');
 
     if (login && password) {
+        const {
+            serviceProtocol,
+            serviceServerName,
+            servicePort,
+            serviceUrl,
+            serviceMethod,
+        } = apiConfig.services.login.checkCredentials;
+        const serviceLink = `${serviceProtocol}://${serviceServerName}:${servicePort}${serviceUrl}`;
+
         const { exists: isUserExist, userId } = await fetcher(
-            loginConfig.checkCredentialsLink,
+            serviceLink,
             {
-                method: 'POST',
+                method: serviceMethod,
                 body: { login, password },
-            }
-        ).catch((_) => ({ exists: false, userId: null }));
+            },
+            () => ({ exists: false, userId: null })
+        );
 
         if (isUserExist && userId) {
-            const { success, token } = await fetcher(loginConfig.getTokenLink, {
-                method: 'POST',
-                body: JSON.stringify({ userId }),
-            }).catch((_) => ({ success: false, token: null }));
+            const { generateToken } = require('./jwt');
+            const token = generateToken(apiConfig, userId);
 
-            if (success && token) {
-                res.cookie('token', token, {
-                    maxAge: loginConfig.maxLoginTimeMillisec,
-                    httpOnly: true,
-                    secure: true,
-                });
+            res.cookie('token', token, {
+                maxAge: apiConfig.services.login.maxLoginTimeMillisec,
+                httpOnly: true,
+                secure: true,
+            });
 
-                return res.redirect(loginConfig.redirectAfterLogin);
-            }
+            return res.redirect(apiConfig.services.login.redirectToAfterLogin);
         }
     }
 

@@ -10,6 +10,7 @@ const config = {
         },
         pages: {
             pagesUrl: '/',
+            loginPageUrl: '/login',
             pagesPath: './dist/index.html',
         },
         static: {
@@ -23,12 +24,16 @@ const config = {
         apiUrl: '/api',
         services: {
             login: {
-                name: 'login',
                 frontUrl: '/login',
                 maxLoginTimeMillisec: 10 * 60000,
-                checkCredentialsLink: 'http://127.0.0.1:5000/checkCredentials',
-                getTokenLink: 'http://127.0.0.1:5000/getToken',
-                redirectAfterLogin: '/',
+                checkCredentials: {
+                    serviceProtocol: 'http',
+                    serviceServerName: '127.0.0.1',
+                    servicePort: 5000,
+                    serviceMethod: 'POST',
+                    serviceUrl: '/api/check-credentials',
+                },
+                redirectToAfterLogin: '/',
             },
             doesNotExist: {
                 name: 'doesNotExist',

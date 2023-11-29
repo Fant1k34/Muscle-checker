@@ -10,7 +10,7 @@ const getApiListByConfig = (config) => [
         name: config.api.services.login.name,
         url: config.api.services.login.frontUrl,
         method: HTTPMethods.POST,
-        service: loginApi(config.api.services.login),
+        service: loginApi(config.api),
     },
     {
         name: config.api.services.doesNotExist.name,
