@@ -1,5 +1,5 @@
 const doesNotExistApi = (doesNotExistConfig) => (req, res) => {
-    res.send('Этой апи не существует');
+    res.sendStatus(404);
 };
 
 module.exports = { doesNotExistApi };

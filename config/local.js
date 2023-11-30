@@ -3,7 +3,6 @@ const config = {
         protocol: 'http',
         serverName: 'localhost',
         port: 3000,
-        pagesUrl: '/',
         bundle: {
             bundleUrl: '/bundle.js',
             bundlePath: './dist/bundle.js',
@@ -24,12 +23,12 @@ const config = {
         apiUrl: '/api',
         services: {
             login: {
-                frontUrl: '/login',
+                frontUrl: '/login-api',
                 maxLoginTimeMillisec: 10 * 60000,
                 checkCredentials: {
                     serviceProtocol: 'http',
                     serviceServerName: '127.0.0.1',
-                    servicePort: 5000,
+                    servicePort: 1234,
                     serviceMethod: 'POST',
                     serviceUrl: '/api/check-credentials',
                 },

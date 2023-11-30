@@ -1,4 +1,18 @@
-startServer = (config, serverLogger) => {
+const { verifyToken } = require('./api/jwt');
+
+const checkAccess = (cookies, currentUrl, allowedUrls) => {
+    // Check if user goes to allowed URL
+    if (
+        allowedUrls.includes(currentUrl) ||
+        (cookies && cookies['token'] && verifyToken(cookies['token']))
+    ) {
+        return true;
+    }
+
+    return false;
+};
+
+const startServer = (config, serverLogger) => {
     const express = require('express');
     const cookieParser = require('cookie-parser');
 
@@ -27,29 +41,12 @@ startServer = (config, serverLogger) => {
         res.sendFile(bundlePath, { root: '.' });
     });
 
-    app.all('*', (req, res, next) => {
-        serverLogger('accessCheck', req.originalUrl);
-
-        const openUrls = [
-            loginPageUrl,
-            config.api.apiUrl + config.api.services.login.frontUrl,
-        ];
-
-        // Check if user goes to login URL or use loginApi or user has already cookies
-        if (
-            openUrls.includes(req.originalUrl) ||
-            (res.cookies && res.cookies['token'])
-        ) {
-            next();
-        } else {
-            // Others
-            res.redirect(loginPageUrl);
-        }
-    });
-
     // static (images)
     app.get(`${pagesUrl}${imageUrl}*`, (req, res) => {
         serverLogger('getImages', req.originalUrl);
+        if (!checkAccess(req.cookies, req.originalUrl, [])) {
+            return res.sendStatus(403);
+        }
 
         const imageId = req.originalUrl.split('/').slice(-1);
         res.sendFile(`${imagePath}${imageId}`, { root: '.' });
@@ -58,6 +55,13 @@ startServer = (config, serverLogger) => {
     // api
     app.all(`${apiUrl}*`, (req, res) => {
         serverLogger('useApi', req.originalUrl);
+        if (
+            !checkAccess(req.cookies, req.originalUrl, [
+                config.api.apiUrl + config.api.services.login.frontUrl,
+            ])
+        ) {
+            return res.sendStatus(403);
+        }
 
         const urlParts = req.originalUrl.split('/');
         const urlMethod = req.method;
@@ -65,7 +69,7 @@ startServer = (config, serverLogger) => {
             urlParts.findIndex((urlPart) => `/${urlPart}` === apiUrl) + 1;
 
         if (urlParts.length === currentApiInd || currentApiInd === 0) {
-            res.send('Ой, api не существует');
+            res.sendStatus(404);
         }
 
         const currentApiUrl = urlParts[currentApiInd];
@@ -76,6 +80,9 @@ startServer = (config, serverLogger) => {
     // html-pages
     app.get(`${pagesUrl}*`, (req, res) => {
         serverLogger('getHTML', req.originalUrl);
+        if (!checkAccess(req.cookies, req.originalUrl, [loginPageUrl])) {
+            return res.redirect(loginPageUrl);
+        }
 
         res.sendFile(pagesPath, { root: '.' });
     });
@@ -83,8 +90,11 @@ startServer = (config, serverLogger) => {
     // other
     app.get(`*`, (req, res) => {
         serverLogger('otherQuery', req.originalUrl);
+        if (!checkAccess(req.cookies, req.originalUrl, [])) {
+            return res.sendStatus(403);
+        }
 
-        res.send('Ой, ничего не найдено');
+        res.sendStatus(404);
     });
 
     app.listen(port);

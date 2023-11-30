@@ -54,5 +54,9 @@
         "prefer-template": "error",
         "no-underscore-dangle": "error"
     },
-    "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*", "src/sever/**/*.js"]
+    "ignorePatterns": [
+        "src/**/*.test.ts",
+        "src/frontend/generated/*",
+        "src/sever/**/*.js"
+    ]
 }
