@@ -3,4 +3,9 @@ const HTTPMethods = {
     POST: 'POST',
 };
 
-module.exports = { HTTPMethods };
+const LoginComments = {
+    SUCCESS: 'Success login',
+    WRONG_PASSWORD: 'Wrong username or password',
+};
+
+module.exports = { HTTPMethods, LoginComments };

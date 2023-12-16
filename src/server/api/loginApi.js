@@ -1,3 +1,10 @@
+/**
+ *
+ * @param apiConfig
+ * @returns {(function(*, *): Promise<*>)|*}
+ */
+const { LoginComments } = require('../constants');
+
 const loginApi = (apiConfig) => async (req, res) => {
     const { login, password } = req.body;
     const { fetcher } = require('../utils');
@@ -12,6 +19,8 @@ const loginApi = (apiConfig) => async (req, res) => {
         } = apiConfig.services.login.checkCredentials;
         const serviceLink = `${serviceProtocol}://${serviceServerName}:${servicePort}${serviceUrl}`;
 
+        // TODO: Стоит ли заменять await на обработку Promise.then() ?
+        // Кажется, сейчас код блочит поток исполнения на ноде, что плохо
         const { exists: isUserExist, userId } = await fetcher(
             serviceLink,
             {
@@ -26,16 +35,17 @@ const loginApi = (apiConfig) => async (req, res) => {
             const token = generateToken(apiConfig, userId);
 
             res.cookie('token', token, {
+                // TODO: косяк? Время, возможно, надо сумировать с Date.now()
                 maxAge: apiConfig.services.login.maxLoginTimeMillisec,
                 httpOnly: true,
                 secure: true,
             });
 
-            return res.redirect(apiConfig.services.login.redirectToAfterLogin);
+            return res.send({ result: true, comment: LoginComments.SUCCESS });
         }
     }
 
-    return res.send(false);
+    return res.send({ result: false, comment: LoginComments.WRONG_PASSWORD });
 };
 
 module.exports = { loginApi };

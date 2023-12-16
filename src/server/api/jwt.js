@@ -1,5 +1,3 @@
-const fs = require('fs');
-const jwt = require('jsonwebtoken');
 const generateToken = (apiConfig, userId) => {
     const jwt = require('jsonwebtoken');
     const fs = require('fs');

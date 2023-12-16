@@ -19,7 +19,7 @@ const getApiListByConfig = (config) => [
 ];
 
 /**
- * getApiByUrl returns necessary API by url and method or doesNotExistApi
+ * getApiByUrl returns necessary API (request handler) by url and method or doesNotExistApi
  * @param config config object from ./config/local.js as param
  * @param apiUrl string url
  * @param urlMethod httpMethod for this url (get, post ...)
