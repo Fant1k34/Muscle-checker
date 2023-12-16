@@ -81,7 +81,8 @@ const startServer = (config, serverLogger) => {
     app.get(`${pagesUrl}*`, (req, res) => {
         serverLogger('getHTML', req.originalUrl);
         if (!checkAccess(req.cookies, req.originalUrl, [loginPageUrl])) {
-            return res.redirect(loginPageUrl);
+            // TODO: РАСКОММЕНТИРОВАТЬ КАК ТОЛЬКО БУДЕТ СТРАНИЦА ВХОДА!!!
+            // return res.redirect(loginPageUrl);
         }
 
         res.sendFile(pagesPath, { root: '.' });

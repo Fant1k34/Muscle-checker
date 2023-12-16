@@ -7,6 +7,9 @@ import { HostPage } from './pages/host-page/host-page';
 import { AppTabs } from './types/app-tabs';
 import { getLinkToMenuItem } from './utils';
 import { AddMeasure } from './pages/add-measure/add-measure';
+import { LoginPage } from './pages/login-page';
+
+import config from '../config/local';
 
 const PageProvider = (children) => <HostPage> {children} </HostPage>;
 
@@ -26,6 +29,11 @@ const router = createBrowserRouter([
     {
         path: getLinkToMenuItem(AppTabs.SETTINGS),
         element: PageProvider(<div>Настройки</div>),
+    },
+    {
+        // TODO: Заменить ссылкой из config
+        path: '/login',
+        element: PageProvider(<LoginPage />),
     },
 ]);
 
