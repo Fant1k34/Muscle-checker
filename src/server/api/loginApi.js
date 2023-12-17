@@ -9,6 +9,8 @@ const loginApi = (apiConfig) => async (req, res) => {
     const { login, password } = req.body;
     const { fetcher } = require('../utils');
 
+    console.log(JSON.stringify(req.body));
+
     if (login && password) {
         const {
             serviceProtocol,
