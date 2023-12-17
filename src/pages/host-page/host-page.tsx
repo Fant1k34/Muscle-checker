@@ -6,7 +6,7 @@ import { UserOutlined } from '@ant-design/icons';
 
 import { hostStyle, headerStyle, footerStyle } from './styles';
 import { menuItems } from '../../constant/menu-items';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { getLinkToMenuItem, getMenuIdByLink } from '../../utils';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -17,7 +17,6 @@ type HostPageProps = {
 
 export const HostPage = ({ children }: HostPageProps) => {
     const location = useLocation();
-    const navigate = useNavigate();
 
     // Получаем нужный id раздела в Sidebar
     const [chosenItem, setChosenItem] = useState<number>(
@@ -27,7 +26,7 @@ export const HostPage = ({ children }: HostPageProps) => {
     const handleRedirect = (item) => {
         // Редиректим при клике, меняем id раздела
         // Key - это строчный id раздела
-        navigate(getLinkToMenuItem(Number(item.key)));
+        document.location = getLinkToMenuItem(Number(item.key));
 
         setChosenItem(Number(item.key));
     };

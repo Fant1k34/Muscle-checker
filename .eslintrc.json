@@ -36,7 +36,7 @@
                 "format": ["PascalCase", "UPPER_CASE"]
             }
         ],
-        "filenames/match-regex": ["error", "^[a-z]+(-[a-z]+)*$", true],
+        "filenames/match-regex": ["warn", "^[a-z]+(-[a-z]+)*$", true],
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
         "react-hooks/rules-of-hooks": "error",
@@ -54,5 +54,9 @@
         "prefer-template": "error",
         "no-underscore-dangle": "error"
     },
-    "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
+    "ignorePatterns": [
+        "src/**/*.test.ts",
+        "src/frontend/generated/*",
+        "src/sever/**/*.js"
+    ]
 }
