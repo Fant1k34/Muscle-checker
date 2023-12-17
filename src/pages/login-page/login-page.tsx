@@ -2,14 +2,14 @@ import React from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { LoginFormFields } from '../../constant/login-form-fields';
 
-import { config } from '../../../config/local.js';
+import config from '../../../config/local.js';
 
 type FieldType = {
     login: string;
     password: string;
 };
 
-export const Index = () => {
+export const LoginPage = () => {
     const onSuccessInput = (values: FieldType) => {
         const loginUrl = config.api.apiUrl + config.api.services.login.frontUrl;
 

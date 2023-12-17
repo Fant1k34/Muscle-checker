@@ -6,7 +6,7 @@ import { UserOutlined } from '@ant-design/icons';
 
 import { hostStyle, headerStyle, footerStyle } from './styles';
 import { menuItems } from '../../constant/menu-items';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { getLinkToMenuItem, getMenuIdByLink } from '../../utils';
 
 const { Header, Content, Footer, Sider } = Layout;

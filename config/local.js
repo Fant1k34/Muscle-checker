@@ -41,6 +41,4 @@ const config = {
     },
 };
 
-// TODO: Разобраться, почему это работает... И не работает через exports.module
-exports.config = config;
-exports.module = config;
+module.exports = config;

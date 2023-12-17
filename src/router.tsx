@@ -3,11 +3,13 @@ import * as React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { MainPage } from './pages/main-page/main-page';
 import { HostPage } from './pages/host-page/host-page';
-import { Index } from './pages/login-page';
+import { LoginPage } from './pages/login-page/login-page';
 import { AddMeasure } from './pages/add-measure/add-measure';
 
 import { AppTabs } from './types/app-tabs';
 import { getLinkToMenuItem } from './utils';
+
+import config from '../config/local.js';
 
 const PageProvider = (children) => <HostPage> {children} </HostPage>;
 
@@ -29,9 +31,8 @@ const router = createBrowserRouter([
         element: PageProvider(<div>Настройки</div>),
     },
     {
-        // TODO: Заменить ссылкой из config
-        path: '/login',
-        element: PageProvider(<Index />),
+        path: config.server.pages.loginPageUrl,
+        element: PageProvider(<LoginPage />),
     },
 ]);
 

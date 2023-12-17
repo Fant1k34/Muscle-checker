@@ -37,7 +37,6 @@ const loginApi = (apiConfig) => async (req, res) => {
             const token = generateToken(apiConfig, userId);
 
             res.cookie('token', token, {
-                // TODO: косяк? Время, возможно, надо сумировать с Date.now()
                 maxAge: apiConfig.services.login.maxLoginTimeMillisec,
                 httpOnly: true,
                 secure: true,

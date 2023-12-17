@@ -1,7 +1,9 @@
 const fs = require('fs');
 const { startServer } = require('./getServer');
-const { config } = require('../../config/local');
+const config = require('../../config/local');
 const { serverLogger } = require('./utils');
+
+console.log(JSON.stringify(config));
 
 const {
     protocol,
