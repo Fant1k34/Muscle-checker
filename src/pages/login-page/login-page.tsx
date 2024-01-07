@@ -4,6 +4,7 @@ import { Modal, Tabs } from 'antd';
 import { LoginForm } from '../../features/login-form/login-form';
 
 export const LoginPage = () => {
+    // TODO: Реализовать поддержку сессий (сейчас есть пользователь залогинился, то через 10 минут у него протухнет пароль)
     return (
         <Modal open={true} closable={false} footer={null} width={384}>
             <Tabs
@@ -18,6 +19,7 @@ export const LoginPage = () => {
                     {
                         label: 'Зарегистрироваться',
                         key: 'Зарегистрироваться',
+                        // TODO: Сделать форму для регистрации
                         children: <LoginForm />,
                     },
                 ]}

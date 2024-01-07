@@ -8,3 +8,7 @@ export const LoginState = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     SUCCESS: 'Success',
 };
+
+export const Exceptions = {
+    serverShutdown: 'Что-то сломалось, но мы уже чиним',
+};

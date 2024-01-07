@@ -4,6 +4,7 @@ import { fetchLoginData } from './thunk';
 
 type InitialState = {
     loginState: string;
+    errorComment?: string;
 };
 
 const initialState: InitialState = {
@@ -25,8 +26,9 @@ const loginSlice = createSlice({
         builder.addCase(fetchLoginData.fulfilled, (state) => {
             state.loginState = LoginState.SUCCESS;
         });
-        builder.addCase(fetchLoginData.rejected, (state) => {
+        builder.addCase(fetchLoginData.rejected, (state, { payload }: any) => {
             state.loginState = LoginState.ERROR;
+            state.errorComment = payload;
         });
     },
 });

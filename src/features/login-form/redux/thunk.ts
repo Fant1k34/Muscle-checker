@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { Exceptions } from '../constants/login-state';
 
 type FetchLoginDataType = {
     loginUrl: string;
@@ -8,35 +9,31 @@ type FetchLoginDataType = {
 
 export const fetchLoginData = createAsyncThunk(
     '',
-    (
+    async (
         { loginUrl, login, password }: FetchLoginDataType,
         { rejectWithValue }
     ) => {
-        // TODO: Пофиксить код, в любом случае получается успех запроса вне зависимости от реального результата
-        fetch(loginUrl, {
-            headers: {
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                'Content-Type': 'application/json',
-            },
-            method: 'POST',
-            body: JSON.stringify({
-                login: login,
-                password: password,
-            }),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    rejectWithValue(false);
-                } else {
-                    return response.json();
-                }
-            })
-            .then((response) => {
-                if (response.result) {
-                    return response.result;
-                }
-
-                rejectWithValue(false);
+        try {
+            const isLoginSuccessResponse = await fetch(loginUrl, {
+                headers: {
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    'Content-Type': 'application/json',
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    login: login,
+                    password: password,
+                }),
             });
+            const { result, comment } = await isLoginSuccessResponse.json();
+
+            if (result) {
+                return true;
+            } else {
+                return rejectWithValue(comment);
+            }
+        } catch {
+            return rejectWithValue(Exceptions.serverShutdown);
+        }
     }
 );

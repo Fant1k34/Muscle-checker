@@ -5,7 +5,7 @@ import config from '../../../config/local';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginState } from './constants/login-state';
-import { loginStateSelector } from './redux/selectors';
+import { loginExceptionSelector, loginStateSelector } from './redux/selectors';
 import { fetchLoginData } from './redux/thunk';
 
 type FieldType = {
@@ -16,6 +16,7 @@ type FieldType = {
 export const LoginForm = () => {
     const dispatch = useDispatch();
     const loginState = useSelector(loginStateSelector);
+    const loginException = useSelector(loginExceptionSelector);
 
     const onSuccessInput = (values: FieldType) => {
         const loginUrl = config.api.apiUrl + config.api.services.login.frontUrl;
@@ -36,18 +37,13 @@ export const LoginForm = () => {
     }
 
     if (loginState === LoginState.SUCCESS) {
-        return 'Успех';
-    }
-
-    if (loginState === LoginState.ERROR) {
-        return 'Ашипка';
+        document.location = config.api.services.login.redirectToAfterLogin;
     }
 
     return (
         <Form
             style={{ maxWidth: 1024 }}
             onFinish={onSuccessInput}
-            onFinishFailed={() => alert('Wrong')}
             autoComplete="off">
             <Form.Item<FieldType>
                 name={LoginFormFields.login.name}
@@ -78,6 +74,7 @@ export const LoginForm = () => {
                     placeholder={LoginFormFields.password.text}
                 />
             </Form.Item>
+            {loginState === LoginState.ERROR && loginException}
             <Form.Item
                 style={{
                     display: 'flex',
@@ -87,6 +84,7 @@ export const LoginForm = () => {
                 <Button type="primary" htmlType="submit" size="large">
                     Войти
                 </Button>
+                {/*// TODO: Реализовать поведение кнопки "Не помню пароль"*/}
                 <Button type="link" htmlType="submit" size="large">
                     Не помню пароль
                 </Button>
