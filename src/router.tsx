@@ -10,8 +10,14 @@ import { AppTabs } from './types/app-tabs';
 import { getLinkToMenuItem } from './utils';
 
 import config from '../config/local.js';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
-const PageProvider = (children) => <HostPage> {children} </HostPage>;
+const PageProvider = (children) => (
+    <HostPage>
+        <Provider store={store}> {children} </Provider>
+    </HostPage>
+);
 
 const router = createBrowserRouter([
     {

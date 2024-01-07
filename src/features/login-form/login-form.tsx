@@ -1,8 +1,12 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Spin } from 'antd';
 import { LoginFormFields } from '../../constant/login-form-fields';
 import React from 'react';
 import config from '../../../config/local';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoginState } from './constants/login-state';
+import { loginStateSelector } from './redux/selectors';
+import { fetchLoginData } from './redux/thunk';
 
 type FieldType = {
     login: string;
@@ -10,38 +14,34 @@ type FieldType = {
 };
 
 export const LoginForm = () => {
+    const dispatch = useDispatch();
+    const loginState = useSelector(loginStateSelector);
+
     const onSuccessInput = (values: FieldType) => {
         const loginUrl = config.api.apiUrl + config.api.services.login.frontUrl;
 
-        fetch(loginUrl, {
-            headers: {
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                'Content-Type': 'application/json',
-            },
-            method: 'POST',
-            body: JSON.stringify({
+        dispatch(
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            fetchLoginData({
+                loginUrl,
                 login: values.login,
                 password: values.password,
-            }),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw Error('No success');
-                }
-
-                return response.json();
             })
-            .catch(() => {
-                alert('Что-то пошло не так');
-            })
-            .then((response) => {
-                if (response.result) {
-                    document.location = '/';
-                } else {
-                    alert(response.comment);
-                }
-            });
+        );
     };
+
+    if (loginState === LoginState.CHECKING) {
+        return <Spin size="large" />;
+    }
+
+    if (loginState === LoginState.SUCCESS) {
+        return 'Успех';
+    }
+
+    if (loginState === LoginState.ERROR) {
+        return 'Ашипка';
+    }
 
     return (
         <Form
@@ -58,6 +58,7 @@ export const LoginForm = () => {
                     },
                 ]}>
                 <Input
+                    size="large"
                     prefix={<UserOutlined style={{ marginRight: 12 }} />}
                     placeholder={LoginFormFields.login.text}
                 />
@@ -72,6 +73,7 @@ export const LoginForm = () => {
                     },
                 ]}>
                 <Input.Password
+                    size="large"
                     prefix={<LockOutlined style={{ marginRight: 12 }} />}
                     placeholder={LoginFormFields.password.text}
                 />
@@ -82,10 +84,10 @@ export const LoginForm = () => {
                     justifyContent: 'center',
                     margin: 'auto',
                 }}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" size="large">
                     Войти
                 </Button>
-                <Button type="link" htmlType="submit">
+                <Button type="link" htmlType="submit" size="large">
                     Не помню пароль
                 </Button>
             </Form.Item>
