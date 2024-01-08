@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Tabs } from 'antd';
 
 import { LoginForm } from '../../features/login-form/login-form';
+import { LoginModal } from '../../features/login-form/login-modal';
 
 export const LoginPage = () => {
     // TODO: Реализовать поддержку сессий (сейчас есть пользователь залогинился, то через 10 минут у него протухнет пароль)
@@ -14,13 +15,13 @@ export const LoginPage = () => {
                     {
                         label: 'Войти',
                         key: 'Войти',
-                        children: <LoginForm />,
+                        children: <LoginModal />,
                     },
                     {
                         label: 'Зарегистрироваться',
                         key: 'Зарегистрироваться',
                         // TODO: Сделать форму для регистрации
-                        children: <LoginForm />,
+                        children: <LoginModal />,
                     },
                 ]}
             />

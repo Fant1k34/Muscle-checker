@@ -13,7 +13,11 @@ type FieldType = {
     password: string;
 };
 
-export const LoginForm = () => {
+type LoginFormPropsType = {
+    switchToReseting: () => void;
+};
+
+export const LoginForm = ({ switchToReseting }: LoginFormPropsType) => {
     const dispatch = useDispatch();
     const loginState = useSelector(loginStateSelector);
     const loginException = useSelector(loginExceptionSelector);
@@ -75,20 +79,36 @@ export const LoginForm = () => {
                 />
             </Form.Item>
             {loginState === LoginState.ERROR && loginException}
-            <Form.Item
+            <div
                 style={{
                     display: 'flex',
-                    justifyContent: 'center',
+                    justifyContent: 'stretch',
+                    width: '100%',
                     margin: 'auto',
                 }}>
-                <Button type="primary" htmlType="submit" size="large">
+                <Button
+                    style={{ width: '100%' }}
+                    type="primary"
+                    htmlType="submit"
+                    size="large">
                     Войти
                 </Button>
-                {/*// TODO: Реализовать поведение кнопки "Не помню пароль"*/}
-                <Button type="link" htmlType="submit" size="large">
-                    Не помню пароль
+            </div>
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'stretch',
+                    width: '100%',
+                    margin: 'auto',
+                }}>
+                <Button
+                    style={{ width: '100%' }}
+                    type="link"
+                    onClick={switchToReseting}
+                    size="large">
+                    Сбросить пароль
                 </Button>
-            </Form.Item>
+            </div>
         </Form>
     );
 };
