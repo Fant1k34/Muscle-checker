@@ -8,7 +8,7 @@ type FetchLoginDataType = {
 };
 
 export const fetchLoginData = createAsyncThunk(
-    '',
+    'fetchLoginData',
     async (
         { loginUrl, login, password }: FetchLoginDataType,
         { rejectWithValue }
@@ -35,5 +35,21 @@ export const fetchLoginData = createAsyncThunk(
         } catch {
             return rejectWithValue(Exceptions.serverShutdown);
         }
+    }
+);
+
+type FetchResetPasswordType = {
+    loginToRestore: string;
+};
+
+export const fetchResetPassword = createAsyncThunk(
+    'fetchResetPassword',
+    async (
+        { loginToRestore }: FetchResetPasswordType,
+        { rejectWithValue, dispatch }
+    ) => {
+        try {
+            const resetPasswordResponce = await fetch('TODO');
+        } catch {}
     }
 );

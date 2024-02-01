@@ -38,7 +38,11 @@ const startServer = (config, serverLogger) => {
     app.get(bundleUrl, (req, res) => {
         serverLogger('getBundle', req.originalUrl);
 
-        res.sendFile(bundlePath, { root: '.' });
+        try {
+            res.sendFile(bundlePath, { root: '.' });
+        } catch {
+            res.sendStatus(503);
+        }
     });
 
     // static (images)
@@ -48,8 +52,13 @@ const startServer = (config, serverLogger) => {
             return res.sendStatus(403);
         }
 
-        const imageId = req.originalUrl.split('/').slice(-1);
-        res.sendFile(`${imagePath}${imageId}`, { root: '.' });
+        try {
+            const imageId = req.originalUrl.split('/').slice(-1);
+
+            res.sendFile(`${imagePath}${imageId}`, { root: '.' });
+        } catch {
+            res.sendStatus(404);
+        }
     });
 
     // api

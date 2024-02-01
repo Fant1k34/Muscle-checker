@@ -1,0 +1,8 @@
+title Server. JS bundle
+User->Node.js [Express]:Get /bundle.js
+
+note over Node.js [Express]:Get js-file from server file system\nBundle path: /dist/bundle.js
+
+Node.js [Express]->User: Code 503 [Bundle does not exist]
+Node.js [Express]->User: bundle.js [File]
+

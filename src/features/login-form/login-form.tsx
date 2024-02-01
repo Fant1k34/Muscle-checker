@@ -48,7 +48,8 @@ export const LoginForm = ({ switchToReseting }: LoginFormPropsType) => {
         <Form
             style={{ maxWidth: 1024 }}
             onFinish={onSuccessInput}
-            autoComplete="off">
+            autoComplete="off"
+        >
             <Form.Item<FieldType>
                 name={LoginFormFields.login.name}
                 rules={[
@@ -56,7 +57,8 @@ export const LoginForm = ({ switchToReseting }: LoginFormPropsType) => {
                         required: LoginFormFields.login.required,
                         message: LoginFormFields.login.messageOnEmpty,
                     },
-                ]}>
+                ]}
+            >
                 <Input
                     size="large"
                     prefix={<UserOutlined style={{ marginRight: 12 }} />}
@@ -71,7 +73,8 @@ export const LoginForm = ({ switchToReseting }: LoginFormPropsType) => {
                         required: LoginFormFields.password.required,
                         message: LoginFormFields.password.messageOnEmpty,
                     },
-                ]}>
+                ]}
+            >
                 <Input.Password
                     size="large"
                     prefix={<LockOutlined style={{ marginRight: 12 }} />}
@@ -85,12 +88,14 @@ export const LoginForm = ({ switchToReseting }: LoginFormPropsType) => {
                     justifyContent: 'stretch',
                     width: '100%',
                     margin: 'auto',
-                }}>
+                }}
+            >
                 <Button
                     style={{ width: '100%' }}
                     type="primary"
                     htmlType="submit"
-                    size="large">
+                    size="large"
+                >
                     Войти
                 </Button>
             </div>
@@ -100,12 +105,14 @@ export const LoginForm = ({ switchToReseting }: LoginFormPropsType) => {
                     justifyContent: 'stretch',
                     width: '100%',
                     margin: 'auto',
-                }}>
+                }}
+            >
                 <Button
                     style={{ width: '100%' }}
                     type="link"
                     onClick={switchToReseting}
-                    size="large">
+                    size="large"
+                >
                     Сбросить пароль
                 </Button>
             </div>

@@ -32,12 +32,14 @@ export const ResetPassword = ({ switchToLogin }: ResetPasswordPropsType) => {
                     justifyContent: 'stretch',
                     width: '100%',
                     margin: 'auto',
-                }}>
+                }}
+            >
                 <Button
                     style={{ width: '100%' }}
                     type="primary"
                     onClick={switchToLogin}
-                    size="large">
+                    size="large"
+                >
                     Сбросить пароль
                 </Button>
             </div>
@@ -47,12 +49,14 @@ export const ResetPassword = ({ switchToLogin }: ResetPasswordPropsType) => {
                     justifyContent: 'stretch',
                     width: '100%',
                     margin: 'auto',
-                }}>
+                }}
+            >
                 <Button
                     style={{ width: '100%' }}
                     type="link"
                     onClick={resetPassword}
-                    size="large">
+                    size="large"
+                >
                     Вернуться
                 </Button>
             </div>
