@@ -93,7 +93,11 @@ const startServer = (config, serverLogger) => {
             return res.redirect(loginPageUrl);
         }
 
-        res.sendFile(pagesPath, { root: '.' });
+        try {
+            res.sendFile(pagesPath, { root: '.' });
+        } catch {
+            res.sendStatus(404);
+        }
     });
 
     // other
