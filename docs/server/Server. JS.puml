@@ -1,0 +1,31 @@
+@startuml
+title Server. JS bundle
+
+participant User
+
+box "Node.js" #Cyan
+    participant "Express" as Express
+end box
+
+
+activate User
+activate Express
+
+
+
+User -> Express: Get /bundle.js
+
+deactivate User
+
+Express -> Express: Get js-file from server file system\nBundle path: /dist/bundle.js
+
+
+alt File does not exist
+    Express --> User: Code 503
+else File exists
+    Express --> User: bundle.js
+end
+
+deactivate Express
+
+@enduml

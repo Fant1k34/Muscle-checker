@@ -1,0 +1,48 @@
+@startuml
+title Server. Images (static)
+
+
+participant User
+
+box "Node.js" #Cyan
+    participant "Express" as Express
+    participant "JwtModule" as JwtModule
+end box
+
+activate User
+activate Express
+activate JwtModule
+
+User -> Express: Get /static/images/*
+
+deactivate User
+
+alt Cookie does not exist or field "token" inside cookies does not exist
+    Express -> User: Code 403
+else Cookie exists and field "token" inside cookies exists
+    Express -> Express: Get token from Cookie\ntoken = cookies["token"]
+
+    Express -> JwtModule: token [String]
+
+    JwtModule -> JwtModule: verifyToken
+
+    Express <- JwtModule: Verification result [Boolean]
+    alt Verification result is false
+        Express -> User: Code 403
+    else Verification result is true
+
+        Express -> Express: Set imageId (name of image) as substring\nfrom last "/" symbol to the end of query string
+
+        Express -> Express: Get file from server file system\nImage path: /dist/static/images/{imageId}
+
+        alt File imageId does not exist
+            Express -> User: Code 404
+        else File imageId exists
+            Express -> User: Image [File type]
+        end
+    end
+end
+deactivate Express
+deactivate JwtModule
+
+@enduml

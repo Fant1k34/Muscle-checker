@@ -1,0 +1,56 @@
+@startuml
+title Server. HTML-pages
+
+participant User
+
+box "Node.js" #Cyan
+    participant "Express" as Express
+    participant "JwtModule" as JwtModule
+end box
+
+activate User
+activate Express
+activate JwtModule
+
+User -> Express: Get /*
+
+deactivate User
+
+alt Url equals /login
+    Express -> Express: Get file from server file system \nHTML-page path: /dist/index.html
+
+    alt HTML-file exists
+        Express <-- User: HTML [File type]
+    else HTML-file does not exist
+        Express <-- User: Code 404
+    end
+else Url does not equal /login
+    alt Cookie does not exist or field "token" inside cookies does not exist
+        Express -> User: Code 403
+    else Cookie exists and field "token" inside cookies exists
+        Express -> Express: Get token from Cookie\ntoken = cookies["token"]
+
+        Express -> JwtModule: token [String]
+
+        JwtModule -> JwtModule: verifyToken
+
+        JwtModule -> Express: Verification result [Boolean]
+
+        alt Verification result is false
+                Express -> User: Code 403
+        else Verification result is true
+            Express -> Express: Get file from server file system \nHTML-page path: /dist/index.html
+
+            alt HTML-file exists
+                Express -> User: HTML [File type]
+            else HTML-file does not exist
+                Express -> User: Code 404
+            end
+        end
+    end
+end
+
+deactivate Express
+deactivate JwtModule
+
+@enduml
