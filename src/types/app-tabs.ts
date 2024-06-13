@@ -3,4 +3,5 @@ export enum AppTabs {
     MEASURE,
     STATISTICS,
     SETTINGS,
+    LOGIN,
 }

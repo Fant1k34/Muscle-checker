@@ -1,0 +1,18 @@
+title Server. API
+User->Node.js [Express]:Query /api*
+
+Node.js [Express]->User: Code 403\n[cookies == null || cookies["token"] == null]
+note over Node.js [Express]: Check if {url} is /api/login-api (allowed url) \nНиже проверка только если условие не выполняется!
+note over Node.js [Express]: token = cookies["token"]
+Node.js [Express]->Node.js [jwt]:token
+note over Node.js [jwt]: verifyToken
+Node.js [Express]<-Node.js [jwt]:result [boolean]
+Node.js [Express]->User: Code 403 [result == false]
+
+note over Node.js [Express]: Find API based on query {url}
+
+Node.js [Express]->User: Code 404 [API not found]
+
+note over Node.js [Express]: Processing with API
+
+Node.js [Express]->User: Result

@@ -1,0 +1,57 @@
+@startuml
+title Server. API
+
+participant User
+
+box "Node.js" #Cyan
+    participant "Express" as Express
+    participant "JwtModule" as JwtModule
+end box
+
+activate User
+activate Express
+activate JwtModule
+
+User -> Express: Query /api*
+
+Express -> Express: Check url (TODO: сделать проверку\nопределения API через split по url\n"/api/some-api?param1=4"\nА остальное -- в качестве query-параметров\nдля апишки или path)
+
+alt Url does not equal /api/login-api (allowed url)
+
+    alt Cookie does not exist or field "token" inside cookies does not exist
+            Express -> User: Code 403
+        else Cookie exists and field "token" inside cookies exists
+            Express -> Express: Get token from Cookie\ntoken = cookies["token"]
+
+            Express -> JwtModule: token [String]
+
+            JwtModule -> JwtModule: verifyToken
+
+            JwtModule -> Express: Verification result [Boolean]
+
+            alt Verification result is false
+                    Express -> User: Code 403
+            end
+        end
+    end
+
+        note over Express
+            TODO: Сделать проверку АПИ, где определяю параметры API
+        end note
+
+        note over Express
+            Find API based on query {url}
+        end note
+        Express --> User: Code 404 [API not found]
+
+        note over Express
+            Processing with API
+        end note
+        Express --> User: Result
+
+
+deactivate User
+deactivate Express
+deactivate JwtModule
+
+@enduml

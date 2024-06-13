@@ -1,25 +1,38 @@
 const fs = require('fs');
-const readYamlFile = require('read-yaml-file');
 const { startServer } = require('./getServer');
+const config = require('../../config/local');
+const { serverLogger } = require('./utils');
 
-const indexHtml = './dist/index.html';
-const config = './config/local.yaml';
-const jsBundle = '/bundle.js';
+console.log(JSON.stringify(config));
 
-readYamlFile(config).then((config) => {
-    console.log(config);
-    const link = `${config.protocol}://${config.serverName}:${config.port}${jsBundle}`;
+const {
+    protocol,
+    serverName,
+    port,
+    bundle: { bundleUrl },
+    pages: { pagesPath },
+} = config.server;
 
-    fs.readFile(indexHtml, 'utf8', function (err, data) {
-        if (err) {
-            return console.log(err);
-        }
-        const result = data.replace(/{TO_REPLACE_WITH_LINK}/g, link);
+const link = `${protocol}://${serverName}:${port}${bundleUrl}`;
 
-        fs.writeFile(indexHtml, result, 'utf8', function (err) {
-            if (err) return console.log(err);
-        });
+const onError = (error) => {
+    console.error(error);
+};
+
+const writeContentToFile = (file, content) => {
+    fs.writeFile(file, content, 'utf8', (err) => {
+        if (err) return onError(err);
     });
+};
 
-    startServer(config.port, config.pagesUrl, config.bundleUrl);
+fs.readFile(pagesPath, 'utf8', (err, data) => {
+    if (err) return onError(err);
+
+    const htmlWithCorrectedScriptLink = data.replace(
+        /{TO_REPLACE_WITH_LINK}/g,
+        link
+    );
+    writeContentToFile(pagesPath, htmlWithCorrectedScriptLink);
+
+    startServer(config, serverLogger);
 });
