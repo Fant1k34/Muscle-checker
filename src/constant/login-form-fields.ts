@@ -11,9 +11,4 @@ export const LoginFormFields = {
         required: true,
         messageOnEmpty: 'Пожалуйста, введите пароль',
     },
-    agreed: {
-        name: 'agreed',
-        required: true,
-        messageOnEmpty: 'Необходимо согласиться с условиями пользования',
-    },
 };
