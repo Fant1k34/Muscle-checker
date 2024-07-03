@@ -1,11 +1,9 @@
 export const RegisterState = {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     REGISTER: 'Filling form',
-    // eslint-disable-next-line @typescript-eslint/naming-convention
+    SENDING_CODE: 'Sending code',
     WAITING_FOR_APPROVE: 'Waiting',
-    // eslint-disable-next-line @typescript-eslint/naming-convention
+    CHECKING_CODE: 'Checking code',
     ERROR: 'Error',
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     SUCCESS: 'Success',
 };
 

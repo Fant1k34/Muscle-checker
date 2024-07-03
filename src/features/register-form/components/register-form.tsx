@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { RegisterFormFields } from '../../constant/register-form-fields';
+import { RegisterFormFields } from '../../../constant/register-form-fields';
 
 type FieldType = {
     name: string;
@@ -14,14 +14,19 @@ type FieldType = {
 
 type RegisterFormProps = {
     notifyRegisterInput: () => void;
+    setEmail: (value: string) => void;
 };
 
-export const RegisterForm = ({ notifyRegisterInput }: RegisterFormProps) => {
+export const RegisterForm = ({
+    notifyRegisterInput,
+    setEmail,
+}: RegisterFormProps) => {
     return (
         <Form
             style={{ maxWidth: 1024 }}
             onFinish={() => {
                 notifyRegisterInput();
+                setEmail('check@gmail.com');
                 alert('Всё гуд');
             }}
             autoComplete="off">
