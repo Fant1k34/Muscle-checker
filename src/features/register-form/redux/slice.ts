@@ -1,54 +1,47 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RegisterState } from '../constants/register-state';
+import { fetchApproveEmail } from './thunk';
 
 type InitialState = {
-    loginState: string;
-    resetPasswordState: string;
-    errorComment?: string;
+    registerState: string;
+    email: string | null;
 };
 
 const initialState: InitialState = {
-    loginState: LoginState.FILLING_FORM,
-    resetPasswordState: LoginState.FILLING_FORM,
+    registerState: RegisterState.REGISTER,
+    email: null,
 };
 
-const loginSlice = createSlice({
-    name: 'login-slice',
+const registerSlice = createSlice({
+    name: 'register-slice',
     initialState,
     reducers: {
-        resetLoginState: (state) => {
-            state.loginState = LoginState.FILLING_FORM;
+        setRegisterState: (state, { payload: { newRegisterState } }) => {
+            state.registerState = newRegisterState;
         },
-        resetResetPasswordState: (state) => {
-            state.resetPasswordState = LoginState.FILLING_FORM;
+        resetRegisterState: (state) => {
+            state.registerState = RegisterState.REGISTER;
+        },
+        setEmail: (state, { payload: { newEmail } }) => {
+            state.email = newEmail;
+        },
+        resetEmail: (state) => {
+            state.email = null;
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchLoginData.pending, (state) => {
-            state.loginState = LoginState.CHECKING;
+        builder.addCase(fetchApproveEmail.pending, (state) => {
+            state.registerState = RegisterState.SENDING_CODE;
         });
-        builder.addCase(fetchLoginData.fulfilled, (state) => {
-            state.loginState = LoginState.SUCCESS;
+        builder.addCase(fetchApproveEmail.fulfilled, (state) => {
+            state.registerState = RegisterState.WAITING_FOR_APPROVE;
         });
-        builder.addCase(fetchLoginData.rejected, (state, { payload }: any) => {
-            state.loginState = LoginState.ERROR;
-            state.errorComment = payload;
+        builder.addCase(fetchApproveEmail.rejected, (state) => {
+            state.registerState = RegisterState.ERROR;
         });
-        builder.addCase(fetchResetPassword.pending, (state) => {
-            state.loginState = LoginState.CHECKING;
-        });
-        builder.addCase(fetchResetPassword.fulfilled, (state) => {
-            state.loginState = LoginState.SUCCESS;
-        });
-        builder.addCase(
-            fetchResetPassword.rejected,
-            (state, { payload }: any) => {
-                state.loginState = LoginState.ERROR;
-                state.errorComment = payload;
-            }
-        );
     },
 });
 
-export const loginSliceReducer = loginSlice.reducer;
-export const { resetLoginState, resetResetPasswordState } = loginSlice.actions;
+export const registerReducer = registerSlice.reducer;
+export const { setRegisterState, resetRegisterState, setEmail, resetEmail } =
+    registerSlice.actions;

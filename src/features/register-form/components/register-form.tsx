@@ -6,28 +6,21 @@ import { RegisterFormFields } from '../../../constant/register-form-fields';
 type FieldType = {
     name: string;
     email: string;
-    login: string;
     password: string;
     password2: string;
     agreed: boolean;
 };
 
 type RegisterFormProps = {
-    notifyRegisterInput: () => void;
-    setEmail: (value: string) => void;
+    handleSuccessRegister: (email: string) => void;
 };
 
-export const RegisterForm = ({
-    notifyRegisterInput,
-    setEmail,
-}: RegisterFormProps) => {
+export const RegisterForm = ({ handleSuccessRegister }: RegisterFormProps) => {
     return (
         <Form
             style={{ maxWidth: 1024 }}
-            onFinish={() => {
-                notifyRegisterInput();
-                setEmail('check@gmail.com');
-                alert('Всё гуд');
+            onFinish={(values: FieldType) => {
+                handleSuccessRegister(values.email);
             }}
             autoComplete="off">
             <Form.Item<FieldType>
