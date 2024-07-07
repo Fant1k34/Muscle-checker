@@ -9,6 +9,7 @@ const {
     protocol,
     serverName,
     port,
+    mode,
     bundle: { bundleUrl },
     pages: { pagesPath },
 } = config.server;
@@ -24,6 +25,11 @@ const writeContentToFile = (file, content) => {
         if (err) return onError(err);
     });
 };
+
+if (mode === 'dev') {
+    serverLogger('Mocking is enabled');
+    require('./mock');
+}
 
 fs.readFile(pagesPath, 'utf8', (err, data) => {
     if (err) return onError(err);

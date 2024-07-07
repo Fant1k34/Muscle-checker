@@ -22,7 +22,8 @@ export const RegisterForm = ({ handleSuccessRegister }: RegisterFormProps) => {
             onFinish={(values: FieldType) => {
                 handleSuccessRegister(values.email);
             }}
-            autoComplete="off">
+            autoComplete="off"
+        >
             <Form.Item<FieldType>
                 name={RegisterFormFields.name.name}
                 rules={[
@@ -30,7 +31,8 @@ export const RegisterForm = ({ handleSuccessRegister }: RegisterFormProps) => {
                         required: RegisterFormFields.name.required,
                         message: RegisterFormFields.name.messageOnEmpty,
                     },
-                ]}>
+                ]}
+            >
                 <Input
                     size="large"
                     prefix={<UserOutlined style={{ marginRight: 12 }} />}
@@ -45,7 +47,8 @@ export const RegisterForm = ({ handleSuccessRegister }: RegisterFormProps) => {
                         required: RegisterFormFields.email.required,
                         message: RegisterFormFields.email.messageOnEmpty,
                     },
-                ]}>
+                ]}
+            >
                 <Input
                     size="large"
                     prefix={<UserOutlined style={{ marginRight: 12 }} />}
@@ -60,7 +63,8 @@ export const RegisterForm = ({ handleSuccessRegister }: RegisterFormProps) => {
                         required: RegisterFormFields.password.required,
                         message: RegisterFormFields.password.messageOnEmpty,
                     },
-                ]}>
+                ]}
+            >
                 <Input.Password
                     size="large"
                     prefix={<LockOutlined style={{ marginRight: 12 }} />}
@@ -75,7 +79,8 @@ export const RegisterForm = ({ handleSuccessRegister }: RegisterFormProps) => {
                         required: RegisterFormFields.password2.required,
                         message: RegisterFormFields.password2.messageOnEmpty,
                     },
-                ]}>
+                ]}
+            >
                 <Input.Password
                     size="large"
                     prefix={<LockOutlined style={{ marginRight: 12 }} />}
@@ -92,7 +97,8 @@ export const RegisterForm = ({ handleSuccessRegister }: RegisterFormProps) => {
                             message: RegisterFormFields.agreed.messageOnEmpty,
                         },
                     ]}
-                    valuePropName="checked">
+                    valuePropName="checked"
+                >
                     <Checkbox>
                         Согласен с обработкой персональных данных
                     </Checkbox>
@@ -105,12 +111,14 @@ export const RegisterForm = ({ handleSuccessRegister }: RegisterFormProps) => {
                     justifyContent: 'stretch',
                     width: '100%',
                     margin: 'auto',
-                }}>
+                }}
+            >
                 <Button
                     style={{ width: '100%' }}
                     type="primary"
                     htmlType="submit"
-                    size="large">
+                    size="large"
+                >
                     Зарегистрироваться
                 </Button>
             </div>

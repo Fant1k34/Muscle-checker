@@ -3,6 +3,7 @@ const config = {
         protocol: 'http',
         serverName: 'localhost',
         port: 3000,
+        mode: 'dev',
         bundle: {
             bundleUrl: '/bundle.js',
             bundlePath: './dist/bundle.js',
@@ -31,6 +32,24 @@ const config = {
                     servicePort: 1234,
                     serviceMethod: 'POST',
                     serviceUrl: '/api/check-credentials',
+                },
+                redirectToAfterLogin: '/',
+            },
+            register: {
+                frontUrl: '/register-api',
+                checkEmail: {
+                    serviceProtocol: 'http',
+                    serviceServerName: '127.0.0.1',
+                    servicePort: 1234,
+                    serviceMethod: 'POST',
+                    serviceUrl: '/api/check-email',
+                },
+                register: {
+                    serviceProtocol: 'http',
+                    serviceServerName: '127.0.0.1',
+                    servicePort: 1234,
+                    serviceMethod: 'POST',
+                    serviceUrl: '/api/register',
                 },
                 redirectToAfterLogin: '/',
             },

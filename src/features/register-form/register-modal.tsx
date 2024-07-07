@@ -39,6 +39,8 @@ export const RegisterModal = () => {
             />
         );
 
+    if (registerState == RegisterState.ERROR) return <div>Error ;(</div>;
+
     // Статус либо RegisterState.SENDING_CODE, либо RegisterState.CHECKING_CODE, либо обрабатываем успешную регистрацию
     return <Spin size="large" />;
 };

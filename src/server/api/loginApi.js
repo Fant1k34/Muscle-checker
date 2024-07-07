@@ -33,6 +33,7 @@ const loginApi = (apiConfig) => async (req, res) => {
         );
 
         if (isUserExist && userId) {
+            console.log('Я тут');
             const { generateToken } = require('./jwt');
             const token = generateToken(apiConfig, userId);
 
