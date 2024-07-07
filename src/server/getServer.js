@@ -67,6 +67,10 @@ const startServer = (config, serverLogger) => {
         if (
             !checkAccess(req.cookies, req.originalUrl, [
                 config.api.apiUrl + config.api.services.login.frontUrl,
+                config.api.apiUrl +
+                    config.api.services.register.checkEmail.frontUrl,
+                config.api.apiUrl +
+                    config.api.services.register.register.frontUrl,
             ])
         ) {
             return res.sendStatus(403);

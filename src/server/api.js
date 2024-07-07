@@ -1,4 +1,5 @@
 const { loginApi } = require('./api/loginApi');
+const { checkEmailApi } = require('./api/registerApi');
 const { doesNotExistApi } = require('./api/doesNotExistApi');
 const { HTTPMethods } = require('./constants');
 
@@ -7,10 +8,16 @@ const { HTTPMethods } = require('./constants');
  */
 const getApiListByConfig = (config) => [
     {
-        name: config.api.services.login.name,
+        name: 'Check Credentials',
         url: config.api.services.login.frontUrl,
         method: HTTPMethods.POST,
         service: loginApi(config.api),
+    },
+    {
+        name: 'Check Email',
+        url: config.api.services.register.checkEmail.frontUrl,
+        method: HTTPMethods.POST,
+        service: checkEmailApi(config.api),
     },
     {
         name: config.api.services.doesNotExist.name,

@@ -5,11 +5,13 @@ import { fetchApproveEmail } from './thunk';
 type InitialState = {
     registerState: string;
     email: string | null;
+    name: string | null;
 };
 
 const initialState: InitialState = {
     registerState: RegisterState.REGISTER,
     email: null,
+    name: null,
 };
 
 const registerSlice = createSlice({
@@ -28,6 +30,12 @@ const registerSlice = createSlice({
         resetEmail: (state) => {
             state.email = null;
         },
+        setName: (state, { payload: { newName } }) => {
+            state.email = newName;
+        },
+        resetName: (state) => {
+            state.email = null;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchApproveEmail.pending, (state) => {
@@ -43,5 +51,11 @@ const registerSlice = createSlice({
 });
 
 export const registerReducer = registerSlice.reducer;
-export const { setRegisterState, resetRegisterState, setEmail, resetEmail } =
-    registerSlice.actions;
+export const {
+    setRegisterState,
+    resetRegisterState,
+    setEmail,
+    resetEmail,
+    setName,
+    resetName,
+} = registerSlice.actions;

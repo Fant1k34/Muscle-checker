@@ -4,19 +4,27 @@ import { RegisterForm } from './components/register-form';
 import { WaitingForApproveForm } from './components/waiting-for-approve-form';
 import { Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { emailSelector, registerStateSelector } from './redux/selectors';
+import {
+    emailSelector,
+    nameSelector,
+    registerStateSelector,
+} from './redux/selectors';
 import { fetchApproveEmail } from './redux/thunk';
 import { setRegisterState } from './redux/slice';
+import config from '../../../config/local';
 
 export const RegisterModal = () => {
     const dispatch = useDispatch();
     const registerState = useSelector(registerStateSelector);
     const email = useSelector(emailSelector);
+    // const name = useSelector(nameSelector);
 
-    const handleSuccessRegister = (email: string) => {
-        let approveEmailLink = '127.169.0.101';
+    const handleSuccessRegister = (name: string, email: string) => {
+        let approveEmailLink =
+            config.api.apiUrl +
+            config.api.services.register.checkEmail.frontUrl;
         // @ts-ignore
-        dispatch(fetchApproveEmail({ approveEmailLink, email }));
+        dispatch(fetchApproveEmail({ approveEmailLink, name, email }));
     };
 
     if (registerState == RegisterState.REGISTER)

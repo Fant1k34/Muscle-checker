@@ -8,4 +8,8 @@ const LoginComments = {
     WRONG_PASSWORD: 'Wrong username or password',
 };
 
-module.exports = { HTTPMethods, LoginComments };
+const RegisterComments = {
+    ERROR: 'Что-то пошло не так, попробуйте позже',
+};
+
+module.exports = { HTTPMethods, LoginComments, RegisterComments };

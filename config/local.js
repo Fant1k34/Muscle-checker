@@ -36,8 +36,8 @@ const config = {
                 redirectToAfterLogin: '/',
             },
             register: {
-                frontUrl: '/register-api',
                 checkEmail: {
+                    frontUrl: '/check-email-api',
                     serviceProtocol: 'http',
                     serviceServerName: '127.0.0.1',
                     servicePort: 1234,
@@ -45,6 +45,7 @@ const config = {
                     serviceUrl: '/api/check-email',
                 },
                 register: {
+                    frontUrl: '/register-api',
                     serviceProtocol: 'http',
                     serviceServerName: '127.0.0.1',
                     servicePort: 1234,

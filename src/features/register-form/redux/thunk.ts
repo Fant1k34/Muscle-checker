@@ -1,18 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { setEmail } from './slice';
+import { setEmail, setName } from './slice';
 
 type FetchApproveEmailType = {
     approveEmailLink: string;
+    name: string;
     email: string;
 };
 
 export const fetchApproveEmail = createAsyncThunk(
     'fetchApproveEmail',
     async (
-        { approveEmailLink, email }: FetchApproveEmailType,
+        { approveEmailLink, name, email }: FetchApproveEmailType,
         { rejectWithValue, dispatch }
     ) => {
         dispatch(setEmail({ newEmail: email }));
+        dispatch(setName({ newName: name }));
 
         try {
             const isApproveSuccessResponse = await fetch(approveEmailLink, {
@@ -21,7 +23,7 @@ export const fetchApproveEmail = createAsyncThunk(
                     'Content-Type': 'application/json',
                 },
                 method: 'POST',
-                body: JSON.stringify({ email }),
+                body: JSON.stringify({ name, email }),
             });
             const { result, comment } = await isApproveSuccessResponse.json();
 
