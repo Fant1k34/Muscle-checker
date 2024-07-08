@@ -10,6 +10,7 @@ const LoginComments = {
 
 const RegisterComments = {
     ERROR: 'Что-то пошло не так, попробуйте позже',
+    WROND_CODE: 'Неверный код',
 };
 
 module.exports = { HTTPMethods, LoginComments, RegisterComments };

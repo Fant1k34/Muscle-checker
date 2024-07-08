@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { setEmail, setName } from './slice';
 
 type FetchApproveEmailType = {
     approveEmailLink: string;
@@ -13,9 +12,6 @@ export const fetchApproveEmail = createAsyncThunk(
         { approveEmailLink, name, email }: FetchApproveEmailType,
         { rejectWithValue, dispatch }
     ) => {
-        dispatch(setEmail({ newEmail: email }));
-        dispatch(setName({ newName: name }));
-
         try {
             const isApproveSuccessResponse = await fetch(approveEmailLink, {
                 headers: {
@@ -39,19 +35,41 @@ export const fetchApproveEmail = createAsyncThunk(
         }
     }
 );
-//
-// type FetchResetPasswordType = {
-//     loginToRestore: string;
-// };
-//
-// export const fetchResetPassword = createAsyncThunk(
-//     'fetchResetPassword',
-//     async (
-//         { loginToRestore }: FetchResetPasswordType,
-//         { rejectWithValue, dispatch }
-//     ) => {
-//         try {
-//             const resetPasswordResponce = await fetch('TODO');
-//         } catch {}
-//     }
-// );
+
+type FetchRegisterType = {
+    registerLink: string;
+    name: string;
+    email: string;
+    password: string;
+    code: string;
+};
+
+export const fetchRegister = createAsyncThunk(
+    'fetchRegister',
+    async (
+        { registerLink, name, email, password, code }: FetchRegisterType,
+        { rejectWithValue, dispatch }
+    ) => {
+        try {
+            const registerResponse = await fetch(registerLink, {
+                headers: {
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    'Content-Type': 'application/json',
+                },
+                method: 'POST',
+                body: JSON.stringify({ name, email, password, code }),
+            });
+            const { result, comment } = await registerResponse.json();
+
+            if (result) {
+                return true;
+            } else {
+                return rejectWithValue(comment);
+            }
+        } catch {
+            return rejectWithValue(
+                'Что-то пошло не так. Повторите попытку позднее'
+            );
+        }
+    }
+);

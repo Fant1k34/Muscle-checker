@@ -1,17 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RegisterState } from '../constants/register-state';
-import { fetchApproveEmail } from './thunk';
+import { fetchApproveEmail, fetchRegister } from './thunk';
 
 type InitialState = {
     registerState: string;
-    email: string | null;
-    name: string | null;
+    email?: string;
+    name?: string;
+    password?: string;
 };
 
 const initialState: InitialState = {
     registerState: RegisterState.REGISTER,
     email: null,
     name: null,
+    password: null,
 };
 
 const registerSlice = createSlice({
@@ -24,17 +26,15 @@ const registerSlice = createSlice({
         resetRegisterState: (state) => {
             state.registerState = RegisterState.REGISTER;
         },
-        setEmail: (state, { payload: { newEmail } }) => {
-            state.email = newEmail;
+        setFormData: (state, { payload: { email, name, password } }) => {
+            state.email = email;
+            state.name = name;
+            state.password = password;
         },
-        resetEmail: (state) => {
+        resetFormData: (state) => {
             state.email = null;
-        },
-        setName: (state, { payload: { newName } }) => {
-            state.email = newName;
-        },
-        resetName: (state) => {
-            state.email = null;
+            state.name = null;
+            state.password = null;
         },
     },
     extraReducers: (builder) => {
@@ -47,6 +47,15 @@ const registerSlice = createSlice({
         builder.addCase(fetchApproveEmail.rejected, (state) => {
             state.registerState = RegisterState.ERROR;
         });
+        builder.addCase(fetchRegister.pending, (state) => {
+            state.registerState = RegisterState.CHECKING_CODE;
+        });
+        builder.addCase(fetchRegister.fulfilled, (state) => {
+            state.registerState = RegisterState.SUCCESS;
+        });
+        builder.addCase(fetchRegister.rejected, (state) => {
+            state.registerState = RegisterState.ERROR;
+        });
     },
 });
 
@@ -54,8 +63,6 @@ export const registerReducer = registerSlice.reducer;
 export const {
     setRegisterState,
     resetRegisterState,
-    setEmail,
-    resetEmail,
-    setName,
-    resetName,
+    setFormData,
+    resetFormData,
 } = registerSlice.actions;

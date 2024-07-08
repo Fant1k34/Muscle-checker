@@ -7,19 +7,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     emailSelector,
     nameSelector,
+    passwordSelector,
     registerStateSelector,
 } from './redux/selectors';
-import { fetchApproveEmail } from './redux/thunk';
-import { setRegisterState } from './redux/slice';
+import { fetchApproveEmail, fetchRegister } from './redux/thunk';
+import { setFormData, setRegisterState } from './redux/slice';
 import config from '../../../config/local';
 
 export const RegisterModal = () => {
     const dispatch = useDispatch();
     const registerState = useSelector(registerStateSelector);
     const email = useSelector(emailSelector);
-    // const name = useSelector(nameSelector);
+    const name = useSelector(nameSelector);
+    const password = useSelector(passwordSelector);
 
-    const handleSuccessRegister = (name: string, email: string) => {
+    const handleFillingForm = (
+        name: string,
+        email: string,
+        password: string
+    ) => {
+        dispatch(setFormData({ name, email, password }));
+
         let approveEmailLink =
             config.api.apiUrl +
             config.api.services.register.checkEmail.frontUrl;
@@ -27,16 +35,27 @@ export const RegisterModal = () => {
         dispatch(fetchApproveEmail({ approveEmailLink, name, email }));
     };
 
-    if (registerState == RegisterState.REGISTER)
+    const handleSuccessCode = (code: string) => {
+        let registerLink =
+            config.api.apiUrl + config.api.services.register.register.frontUrl;
+
+        dispatch(
+            // @ts-ignore
+            fetchRegister({ registerLink, name, email, password, code })
+        );
+    };
+
+    if (registerState === RegisterState.REGISTER)
         return (
             <RegisterForm
-                handleSuccessRegister={handleSuccessRegister}></RegisterForm>
+                handleSuccessRegister={handleFillingForm}></RegisterForm>
         );
 
-    if (registerState == RegisterState.WAITING_FOR_APPROVE)
+    if (registerState === RegisterState.WAITING_FOR_APPROVE)
         return (
             <WaitingForApproveForm
                 email={email}
+                handleSubmit={handleSuccessCode}
                 returnBack={() =>
                     dispatch(
                         setRegisterState({
@@ -47,7 +66,9 @@ export const RegisterModal = () => {
             />
         );
 
-    if (registerState == RegisterState.ERROR) return <div>Error ;(</div>;
+    if (registerState === RegisterState.ERROR) return <div>Error ;(</div>;
+
+    if (registerState === RegisterState.SUCCESS) return <div>Ура ура ура</div>;
 
     // Статус либо RegisterState.SENDING_CODE, либо RegisterState.CHECKING_CODE, либо обрабатываем успешную регистрацию
     return <Spin size="large" />;

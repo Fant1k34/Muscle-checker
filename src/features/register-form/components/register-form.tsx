@@ -12,7 +12,11 @@ type FieldType = {
 };
 
 type RegisterFormProps = {
-    handleSuccessRegister: (name: string, email: string) => void;
+    handleSuccessRegister: (
+        name: string,
+        email: string,
+        password: string
+    ) => void;
 };
 
 export const RegisterForm = ({ handleSuccessRegister }: RegisterFormProps) => {
@@ -20,7 +24,11 @@ export const RegisterForm = ({ handleSuccessRegister }: RegisterFormProps) => {
         <Form
             style={{ maxWidth: 1024 }}
             onFinish={(values: FieldType) => {
-                handleSuccessRegister(values.name, values.email);
+                handleSuccessRegister(
+                    values.name,
+                    values.email,
+                    values.password
+                );
             }}
             autoComplete="off">
             <Form.Item<FieldType>

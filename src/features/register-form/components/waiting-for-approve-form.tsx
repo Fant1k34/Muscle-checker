@@ -12,22 +12,25 @@ type FieldType = {
 
 export const WaitingForApproveForm = ({
     email,
+    handleSubmit,
     returnBack,
 }: {
     email: string;
+    handleSubmit: (code: string) => void;
     returnBack: () => void;
 }) => {
+    const handleFinish = (values: FieldType) => {
+        handleSubmit(values.code);
+    };
+
     return (
         <Form
             style={{
                 maxWidth: 1024,
                 justifyContent: 'stretch',
             }}
-            onFinish={() => {
-                alert('Всё гуд');
-            }}
-            autoComplete="off"
-        >
+            onFinish={handleFinish}
+            autoComplete="off">
             <div style={{ marginBottom: 4 }}>
                 <Text>
                     Для подтверждения адреса электронной почты вам необходимо
@@ -41,8 +44,7 @@ export const WaitingForApproveForm = ({
                         required: RegisterFormFields.name.required,
                         message: RegisterFormFields.name.messageOnEmpty,
                     },
-                ]}
-            >
+                ]}>
                 <Input
                     size="large"
                     prefix={<UserOutlined style={{ marginRight: 12 }} />}
@@ -57,22 +59,19 @@ export const WaitingForApproveForm = ({
                     justifyContent: 'stretch',
                     width: '100%',
                     margin: 'auto',
-                }}
-            >
+                }}>
                 <Button
                     style={{ width: '100%' }}
                     type="primary"
                     htmlType="submit"
-                    size="large"
-                >
+                    size="large">
                     Подтвердить
                 </Button>
                 <Button
                     style={{ width: '100%' }}
                     type="link"
                     onClick={returnBack}
-                    size="large"
-                >
+                    size="large">
                     Вернуться
                 </Button>
             </div>
